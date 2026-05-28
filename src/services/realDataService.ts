@@ -28,13 +28,6 @@ export interface EnhancedMarketData extends RealMarketData {
   sectorPerformance: { sector: string; changePercent: number }[]
 }
 
-import {
-  fetchAllFinnhubQuotes,
-  fetchMarketNews,
-  fetchSectorPerformance,
-  isFinnhubAvailable,
-} from "@/services/finnhubService"
-
 const INDEX_CONFIG: Record<string, string> = {
   "^GSPC": "S&P 500",
   "^IXIC": "Nasdaq",
@@ -69,7 +62,12 @@ const FALLBACK_QUOTES: Record<string, { price: number; name: string }> = {
 type CacheEntry<T> = { data: T; ts: number }
 
 let quoteCache: CacheEntry<RealMarketData> | null = null
-const CACHE_TTL = 60000
+let stockCache: CacheEntry<StockQuote[]> | null = null
+let enhancedCache: CacheEntry<EnhancedMarketData> | null = null
+let pendingMarketRequest: Promise<RealMarketData> | null = null
+let pendingStockRequest: Promise<StockQuote[]> | null = null
+const CACHE_TTL = 60_000
+const ENHANCED_TTL = 300_000
 
 function baseUrl(): string {
   return import.meta.env.DEV
@@ -124,54 +122,58 @@ export async function fetchIndices(): Promise<IndexQuote[]> {
 }
 
 export async function fetchAllStocks(): Promise<StockQuote[]> {
-  const results = await Promise.allSettled(
-    Object.entries(STOCK_CONFIG).map(async ([sym, name]) => {
-      const live = await fetchYahoo(sym)
-      if (live) {
-        return {
-          symbol: sym,
-          name,
-          price: live.price,
-          change: +(live.price - live.prevClose).toFixed(2),
-          changePercent: +(((live.price - live.prevClose) / live.prevClose) * 100).toFixed(2),
-          timestamp: new Date().toISOString(),
+  if (stockCache && Date.now() - stockCache.ts < CACHE_TTL) {
+    return stockCache.data
+  }
+  if (pendingStockRequest) return pendingStockRequest
+
+  pendingStockRequest = (async () => {
+    const results = await Promise.allSettled(
+      Object.entries(STOCK_CONFIG).map(async ([sym, name]) => {
+        const live = await fetchYahoo(sym)
+        if (live) {
+          return {
+            symbol: sym, name,
+            price: live.price,
+            change: +(live.price - live.prevClose).toFixed(2),
+            changePercent: +(((live.price - live.prevClose) / live.prevClose) * 100).toFixed(2),
+            timestamp: new Date().toISOString(),
+          }
         }
-      }
-      const fb = FALLBACK_QUOTES[sym]
-      const jPrice = applyJitter(fb.price)
-      return { symbol: sym, name: fb.name, price: jPrice, change: +(jPrice - fb.price).toFixed(2), changePercent: +((jPrice - fb.price) / fb.price * 100).toFixed(2), timestamp: new Date().toISOString() }
-    })
-  )
-  return results.map((r) =>
-    r.status === "fulfilled" ? r.value : { symbol: "—", name: "—", price: 0, change: 0, changePercent: 0, timestamp: "" }
-  )
+        const fb = FALLBACK_QUOTES[sym]
+        const jPrice = applyJitter(fb.price)
+        return { symbol: sym, name: fb.name, price: jPrice, change: +(jPrice - fb.price).toFixed(2), changePercent: +((jPrice - fb.price) / fb.price * 100).toFixed(2), timestamp: new Date().toISOString() }
+      })
+    )
+    const data = results.map((r) =>
+      r.status === "fulfilled" ? r.value : { symbol: "—", name: "—", price: 0, change: 0, changePercent: 0, timestamp: "" }
+    )
+    stockCache = { data, ts: Date.now() }
+    pendingStockRequest = null
+    return data
+  })()
+
+  return pendingStockRequest
 }
 
 export async function fetchMarketData(): Promise<RealMarketData> {
   if (quoteCache && Date.now() - quoteCache.ts < CACHE_TTL) {
     return quoteCache.data
   }
+  if (pendingMarketRequest) return pendingMarketRequest
 
-  let source: RealMarketData["source"] = "fallback"
-  let indices: IndexQuote[] = []
-  let stocks: StockQuote[] = []
+  pendingMarketRequest = (async () => {
+    const results = await Promise.allSettled([fetchIndices(), fetchAllStocks()])
+    const indices = results[0].status === "fulfilled" ? results[0].value : []
+    const stocks = results[1].status === "fulfilled" ? results[1].value : []
+    const source = indices.some((i) => i.symbol !== "—") ? "live" as const : "fallback" as const
+    const data: RealMarketData = { indices, stocks, lastUpdated: new Date().toISOString(), source }
+    quoteCache = { data, ts: Date.now() }
+    pendingMarketRequest = null
+    return data
+  })()
 
-  const results = await Promise.allSettled([fetchIndices(), fetchAllStocks()])
-  if (results[0].status === "fulfilled") indices = results[0].value
-  if (results[1].status === "fulfilled") stocks = results[1].value
-
-  const anyLive = indices.some((i) => i.symbol !== "—")
-  source = anyLive ? "live" : "fallback"
-
-  const data: RealMarketData = {
-    indices,
-    stocks,
-    lastUpdated: new Date().toISOString(),
-    source,
-  }
-
-  quoteCache = { data, ts: Date.now() }
-  return data
+  return pendingMarketRequest
 }
 
 export function getStockSymbols(): string[] {
@@ -186,39 +188,51 @@ export function getIndexQueryConfig() {
   return INDEX_CONFIG
 }
 
+let finnhubCache: { news: string[]; sectors: { sector: string; changePercent: number }[]; ts: number } | null = null
+
 export async function fetchEnhancedMarketData(): Promise<EnhancedMarketData> {
-  const base = await fetchMarketData()
-
-  let finnhubQuotes: StockQuote[] = []
-  let newsHeadlines: string[] = []
-  let sectorPerformance: { sector: string; changePercent: number }[] = []
-
-  if (isFinnhubAvailable()) {
-    const [fq, news, sectors] = await Promise.allSettled([
-      fetchAllFinnhubQuotes(),
-      fetchMarketNews(),
-      fetchSectorPerformance(),
-    ])
-
-    if (fq.status === "fulfilled" && fq.value.length > 0) {
-      finnhubQuotes = fq.value.map((q) => ({
-        symbol: q.symbol,
-        name: q.name,
-        price: q.price,
-        change: q.change,
-        changePercent: q.changePercent,
-        timestamp: new Date().toISOString(),
-      }))
-    }
-
-    if (news.status === "fulfilled" && news.value.length > 0) {
-      newsHeadlines = news.value.map((n) => n.headline)
-    }
-
-    if (sectors.status === "fulfilled" && sectors.value.length > 0) {
-      sectorPerformance = sectors.value
-    }
+  if (enhancedCache && Date.now() - enhancedCache.ts < ENHANCED_TTL) {
+    return enhancedCache.data
   }
 
-  return { ...base, finnhubQuotes, newsHeadlines, sectorPerformance }
+  const base = await fetchMarketData()
+
+  let newsHeadlines: string[] = []
+  let sectorPerformance: { sector: string; changePercent: number }[] = []
+  let finnhubQuotes: StockQuote[] = []
+
+  const now = Date.now()
+  if (finnhubCache && now - finnhubCache.ts < ENHANCED_TTL) {
+    newsHeadlines = finnhubCache.news
+    sectorPerformance = finnhubCache.sectors
+  } else {
+    try {
+      const { fetchAllFinnhubQuotes, fetchMarketNews, fetchSectorPerformance, isFinnhubAvailable } = await import("@/services/finnhubService")
+      if (isFinnhubAvailable()) {
+        const [fq, news, sectors] = await Promise.allSettled([
+          fetchAllFinnhubQuotes(),
+          fetchMarketNews(),
+          fetchSectorPerformance(),
+        ])
+        if (fq.status === "fulfilled" && fq.value.length > 0) {
+          finnhubQuotes = fq.value.map((q) => ({
+            symbol: q.symbol, name: q.name, price: q.price,
+            change: q.change, changePercent: q.changePercent,
+            timestamp: new Date().toISOString(),
+          }))
+        }
+        if (news.status === "fulfilled" && news.value.length > 0) {
+          newsHeadlines = news.value.map((n) => n.headline)
+        }
+        if (sectors.status === "fulfilled" && sectors.value.length > 0) {
+          sectorPerformance = sectors.value
+        }
+        finnhubCache = { news: newsHeadlines, sectors: sectorPerformance, ts: now }
+      }
+    } catch { /* Finnhub unavailable, keep defaults */ }
+  }
+
+  const data: EnhancedMarketData = { ...base, finnhubQuotes, newsHeadlines, sectorPerformance }
+  enhancedCache = { data, ts: now }
+  return data
 }
