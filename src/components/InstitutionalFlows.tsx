@@ -15,10 +15,10 @@ export default function InstitutionalFlows({ flows }: InstitutionalFlowsProps) {
 
   return (
     <section ref={ref} className={`reveal ${isVisible ? "visible" : ""}`}>
-      <div className="bg-[#F5F5F7] py-12 md:py-14">
+      <div className="bg-[#F4F5F7] py-12 md:py-14">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <div className="flex items-end justify-between mb-5">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400">
+            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-500">
               Institutional Flows
             </span>
             <Link to="/flows" className="inline-flex items-center gap-1 text-[10px] font-medium text-gray-400 hover:text-gray-700 transition-colors group">
@@ -27,7 +27,7 @@ export default function InstitutionalFlows({ flows }: InstitutionalFlowsProps) {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {flows.map((flow) => (
-              <div key={flow.id} className="flex items-center justify-between py-3.5 px-5 rounded-lg bg-white border border-gray-100 hover:border-gray-200 transition-all duration-200">
+              <div key={flow.id} className="flex items-center justify-between py-3.5 px-5 rounded-xl bg-white border border-gray-100 hover:border-gray-200 transition-all duration-200">
                 <div className="min-w-0 mr-4">
                   <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 mb-0.5">{flow.label}</p>
                   <p className="text-[11px] text-gray-400 truncate">{flow.description}</p>

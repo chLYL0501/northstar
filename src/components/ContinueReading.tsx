@@ -12,16 +12,15 @@ export default function ContinueReading({ entries }: ContinueReadingProps) {
 
   return (
     <section ref={ref} className={`reveal ${isVisible ? "visible" : ""}`}>
-      <div className="bg-[#F5F5F7] py-14 md:py-16">
+      <div className="bg-[#F4F5F7] py-14 md:py-16">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400 mb-6 block">Continue Reading</span>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-6 block">Continue Reading</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {entries.map((entry) => (
               <Link
                 key={entry.id}
                 to={`/signal/${entry.slug}`}
-                className="flex flex-col justify-between p-5 rounded-lg bg-white border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all duration-200 group hover-scale-sm"
-              >
+                className="flex flex-col justify-between p-5 rounded-xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all duration-200 group hover-scale-sm">
                 <div>
                   <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-400 mb-2 block">{entry.category}</span>
                   <p className="text-[13px] font-medium text-gray-900 group-hover:text-gray-600 transition-colors leading-[1.4] mb-1">{entry.label}</p>

@@ -14,16 +14,16 @@ export default function WhatChangedToday({ changes }: WhatChangedTodayProps) {
   if (!changes.length) return null
 
   return (
-    <section ref={ref} className={`reveal ${isVisible ? "visible" : ""} py-10 md:py-12`}>
+    <section ref={ref} className={`reveal ${isVisible ? "visible" : ""} py-12 md:py-14 bg-[#F4F5F7]`}>
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400 mb-6 block">
+        <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-6 block">
           What Changed Today
         </span>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {changes.map((item, i) => {
             const Icon = DIRECTION_ICON[item.direction]
             return (
-              <div key={i} className="border border-gray-100 rounded-lg p-5 hover:border-gray-200 hover:bg-gray-50/30 transition-all duration-200 group">
+              <div key={i} className="bg-white border border-gray-100 rounded-lg p-5 hover:border-gray-200 hover:bg-white transition-all duration-200 group">
                 <div className="flex items-center justify-between mb-3">
                   <Icon className={`w-4 h-4 ${DIRECTION_COLOR[item.direction]}`} />
                   {item.metric && (

@@ -44,8 +44,8 @@ export default function FlowsPage() {
 
       <article className="pt-20 pb-28">
         <div className="mx-auto max-w-2xl px-6 lg:px-8">
-          <Link to="/" className="inline-flex items-center gap-1.5 text-[11px] text-gray-400 hover:text-gray-700 transition-colors mb-6 group hover-scale-sm">
-            <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+          <Link to="/" className="inline-flex items-center gap-2 text-[13px] font-medium text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 px-4 py-2.5 rounded-lg transition-all duration-200 group">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             Back to Narrative
           </Link>
 
@@ -58,11 +58,11 @@ export default function FlowsPage() {
           </p>
 
           {hasSectorData && sectors && (
-            <div className="mb-10">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4 block">
+            <div className="mb-12">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 block">
                 Sector Performance Today
               </span>
-              <div className="border border-gray-100 rounded-lg overflow-hidden">
+              <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl overflow-hidden">
                 {sectors.map((s) => {
                   const isUp = s.changePercent >= 0
                   return (
@@ -86,9 +86,9 @@ export default function FlowsPage() {
             </div>
           )}
 
-          <div ref={r1} className={`reveal ${v1 ? "visible" : ""} mb-10`}>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4 block">ETF Fund Flows</span>
-            <div className="border border-gray-100 rounded-lg overflow-hidden">
+          <div ref={r1} className={`reveal ${v1 ? "visible" : ""} mb-12`}>
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 block">ETF Fund Flows</span>
+            <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl overflow-hidden">
               {FALLBACK_FLOW_DATA.map((f, i) => (
                 <div key={i} className="flex items-center justify-between px-5 py-3.5 hover:bg-gray-50/50 transition-colors duration-200 border-b border-gray-100 last:border-0">
                   <div>
@@ -110,8 +110,8 @@ export default function FlowsPage() {
             </div>
           </div>
 
-          <div ref={r2} className={`reveal ${v2 ? "visible" : ""} border border-gray-100 rounded-lg p-5 bg-gray-50/50`}>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4 block">Sector Rotation Signal</span>
+          <div ref={r2} className={`reveal ${v2 ? "visible" : ""} mb-12 bg-[#F8F9FA] border border-gray-100 rounded-xl p-5`}>
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 block">Sector Rotation Signal</span>
             {ROTATION.map((r) => (
               <div key={r.label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
                 <span className="text-sm text-gray-700">{r.label}</span>
@@ -124,15 +124,15 @@ export default function FlowsPage() {
             ))}
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-100">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4 block">Related Narratives</span>
-            <div className="space-y-2">
-              <Link to="/signal/supply-chain" className="flex items-center justify-between py-3 px-4 border border-gray-100 rounded-lg hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200 group hover-scale-sm">
-                <span className="text-sm text-gray-700">Supply Chain Analysis</span>
+          <div className="mt-14 pt-8 border-t border-gray-100">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 block">Related Narratives</span>
+            <div className="space-y-3">
+              <Link to="/signal/supply-chain" className="flex items-center justify-between py-4 px-5 bg-[#F8F9FA] border border-gray-100 rounded-xl hover:border-gray-200 hover:bg-white transition-all duration-200 group">
+                <span className="text-sm font-medium text-gray-700">Supply Chain Analysis</span>
                 <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-500 transition-colors" />
               </Link>
-              <Link to="/signal/capex-decomposition" className="flex items-center justify-between py-3 px-4 border border-gray-100 rounded-lg hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200 group hover-scale-sm">
-                <span className="text-sm text-gray-700">Capex Decomposition</span>
+              <Link to="/signal/capex-decomposition" className="flex items-center justify-between py-4 px-5 bg-[#F8F9FA] border border-gray-100 rounded-xl hover:border-gray-200 hover:bg-white transition-all duration-200 group">
+                <span className="text-sm font-medium text-gray-700">Capex Decomposition</span>
                 <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-500 transition-colors" />
               </Link>
             </div>

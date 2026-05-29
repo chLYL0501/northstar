@@ -14,9 +14,9 @@ function SignalCard({ data, index }: { data: Signal; index: number }) {
   return (
     <div ref={ref} className={`reveal reveal-delay-${index + 1} ${isVisible ? "visible" : ""}`}>
       <Link to={`/signal/${data.slug}`} className="block group hover-scale-sm">
-        <div className="border border-gray-100 rounded-lg p-5 hover:border-gray-200 hover:shadow-sm transition-all duration-300">
+        <div className="bg-white border border-gray-100 rounded-xl p-5 hover:border-gray-200 hover:shadow-sm transition-all duration-300">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">{data.label}</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500">{data.label}</span>
             <ArrowUpRight className="w-3 h-3 text-gray-300 group-hover:text-gray-600 transition-colors duration-150" />
           </div>
           <h3 className="text-sm font-semibold leading-snug text-gray-900 mb-2 group-hover:text-gray-600 transition-colors">
@@ -40,10 +40,10 @@ interface SupportingSignalsProps {
 
 export default function SupportingSignals({ signals }: SupportingSignalsProps) {
   return (
-    <section className="py-10 md:py-14 bg-[#F8F9FA]">
+    <section className="py-12 md:py-16 bg-[#F4F5F7]">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400 mb-6 block">Supporting Stories</span>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-6 block">Supporting Stories</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {signals.map((signal, i) => (
             <SignalCard key={signal.id} data={signal} index={i} />
           ))}

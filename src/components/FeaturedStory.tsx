@@ -15,16 +15,16 @@ export default function FeaturedStory({ data }: FeaturedStoryProps) {
 
   return (
     <section ref={ref} className={`reveal ${isVisible ? "visible" : ""}`}>
-      <div className="bg-[#F5F5F7] py-14 md:py-16">
+      <div className="bg-[#F4F5F7] py-14 md:py-16">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10 lg:gap-16 items-center">
             <div>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400 mb-5 block">Featured Story</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-5 block">Featured Story</span>
               <h2 className="font-display text-xl sm:text-2xl md:text-[1.75rem] leading-[1.22] tracking-[-0.008em] text-gray-900 mb-4">
                 {data.title}
               </h2>
               <p className="text-[14px] leading-[1.7] text-gray-500 mb-6">{data.summary}</p>
-              <blockquote className="border-l-[3px] border-gray-300 pl-5 py-0.5 mb-6">
+              <blockquote className="bg-gray-100/50 border-l-[3px] border-gray-300 rounded-r-xl pl-5 py-3 pr-4 mb-6">
                 <p className="text-[13px] leading-relaxed text-gray-400 italic">&ldquo;{data.keyQuote}&rdquo;</p>
                 <footer className="mt-3 text-[11px] text-gray-400 tracking-wide">&mdash; {data.quoteSource}</footer>
               </blockquote>

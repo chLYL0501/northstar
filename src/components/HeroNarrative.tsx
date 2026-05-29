@@ -84,21 +84,21 @@ export default function HeroNarrative({ data, lastUpdated, activeDay, onToggleDa
 
         {/* NEWS THREE ELEMENTS */}
         <div className="animate-fade-in-up" style={{ animationDelay: "0.18s" }}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
-            <div className="border border-gray-100 rounded-lg p-5 hover:border-gray-200 transition-all duration-200">
-              <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2 block">What Happened</span>
-              <p className="text-[13px] leading-[1.6] text-gray-700">{data.whatHappened}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-5 hover:border-gray-200 transition-all duration-200">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2.5 block">What Happened</span>
+              <p className="text-[13px] leading-[1.65] text-gray-700">{data.whatHappened}</p>
             </div>
-            <div className="border border-gray-100 rounded-lg p-5 hover:border-gray-200 transition-all duration-200">
-              <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2 block">Why It Matters</span>
-              <p className="text-[13px] leading-[1.6] text-gray-700">{data.whyItMatters}</p>
+            <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-5 hover:border-gray-200 transition-all duration-200">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2.5 block">Why It Matters</span>
+              <p className="text-[13px] leading-[1.65] text-gray-700">{data.whyItMatters}</p>
             </div>
-            <div className="border border-gray-100 rounded-lg p-5 hover:border-gray-200 transition-all duration-200">
-              <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-3 block">Market Impact</span>
-              <p className="text-[13px] leading-[1.6] text-gray-700 mb-4">{data.marketImpact.description}</p>
+            <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-5 hover:border-gray-200 transition-all duration-200">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-3 block">Market Impact</span>
+              <p className="text-[13px] leading-[1.65] text-gray-700 mb-4">{data.marketImpact.description}</p>
               <div className="flex flex-wrap gap-1.5">
                 {data.marketImpact.tickers.map((t) => (
-                  <Link key={t} to={`/signal/${firstRelatedSlug}`} className="text-[10px] font-bold tabular-nums text-gray-500 bg-gray-100 hover:bg-gray-200 hover:text-gray-900 px-2 py-0.5 rounded transition-colors">
+                  <Link key={t} to={`/signal/${firstRelatedSlug}`} className="text-[11px] font-bold tabular-nums text-gray-600 bg-white border border-gray-200 hover:border-gray-300 hover:text-gray-900 px-2.5 py-1 rounded-md transition-colors">
                     {t}
                   </Link>
                 ))}

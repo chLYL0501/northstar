@@ -73,20 +73,17 @@ export default function Home() {
         {/* ===== TERTIARY: Featured Story ===== */}
         <FeaturedStory data={data.featuredStory} />
 
-        {/* ===== TERTIARY: Flows + Continue Reading ===== */}
-        <section className="py-10 md:py-14">
+        <section className="py-12 md:py-16 bg-[#F4F5F7]">
           <div className="mx-auto max-w-6xl px-6 lg:px-8">
-            <div className="flex items-end justify-between mb-5">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400">Capital Flows</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-              <Link to="/flows" className="flex items-center justify-between py-4 px-5 border border-gray-100 rounded-lg hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200 group hover-scale-sm">
+            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-5 block">Explore</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Link to="/flows" className="flex items-center justify-between py-5 px-5 bg-white border border-gray-100 rounded-xl hover:border-gray-200 hover:shadow-sm transition-all duration-200 group">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
-                    <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+                  <div className="w-9 h-9 rounded-full bg-emerald-50 flex items-center justify-center">
+                    <TrendingUp className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-400 mb-0.5">Track Flows</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-500 mb-0.5">Track Flows</p>
                     <p className="text-sm font-medium text-gray-900">Institutional money across sectors and ETFs</p>
                   </div>
                 </div>
@@ -95,13 +92,13 @@ export default function Home() {
                   <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-500 transition-colors" />
                 </div>
               </Link>
-              <Link to={`/signal/${narrative.relatedSlugs[0]}`} className="flex items-center justify-between py-4 px-5 border border-gray-100 rounded-lg hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200 group hover-scale-sm">
+              <Link to={`/signal/${narrative.relatedSlugs[0]}`} className="flex items-center justify-between py-5 px-5 bg-white border border-gray-100 rounded-xl hover:border-gray-200 hover:shadow-sm transition-all duration-200 group">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
-                    <ChevronRight className="w-3.5 h-3.5 text-blue-600" />
+                  <div className="w-9 h-9 rounded-full bg-blue-50 flex items-center justify-center">
+                    <ChevronRight className="w-4 h-4 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-400 mb-0.5">Read More</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-500 mb-0.5">Read More</p>
                     <p className="text-sm font-medium text-gray-900">Deep dive into today's top story</p>
                   </div>
                 </div>

@@ -26,7 +26,7 @@ const RELEVANCE_COLOR: Record<string, string> = {
 
 function SectionLabel({ children }: { children: string }) {
   return (
-    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4 block">
+    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 mb-4 block">
       {children}
     </span>
   )
@@ -39,7 +39,7 @@ function MetricsRow({ keyData }: { keyData: { label: string; value: string }[] }
     <div className="my-10">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {keyData.map((kd) => (
-          <div key={kd.label} className="border border-gray-100 rounded-lg px-4 py-4 hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200">
+          <div key={kd.label} className="bg-[#F8F9FA] border border-gray-100 rounded-xl px-5 py-4 hover:border-gray-200 transition-all duration-200">
             <p className="text-lg font-bold tabular-nums text-gray-900 leading-none">{kd.value}</p>
             <p className="text-[10px] text-gray-400 mt-1.5 uppercase tracking-wide">{kd.label}</p>
           </div>
@@ -53,14 +53,14 @@ function MetricsRow({ keyData }: { keyData: { label: string; value: string }[] }
 function EvidenceBlock({ evidence }: { evidence: EvidenceItem[] }) {
   if (!evidence.length) return null
   return (
-    <div className="my-10">
+    <div className="my-14">
       <SectionLabel>Supporting Evidence</SectionLabel>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {evidence.map((e, i) => {
           const Icon = DIRECTION_ICON[e.trend]
           const color = e.trend === "up" ? "text-emerald-600" : e.trend === "down" ? "text-red-500" : "text-gray-400"
           return (
-            <div key={i} className="border border-gray-100 rounded-lg p-4 hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200">
+            <div key={i} className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-5 hover:border-gray-200 transition-all duration-200">
               <div className="flex items-center gap-2 mb-2">
                 <Icon className={`w-3.5 h-3.5 ${color} shrink-0`} />
                 <span className="text-lg font-bold tabular-nums text-gray-900">{e.metric}</span>
@@ -79,9 +79,9 @@ function ValueChainBlock({ chain }: { chain: ValueChainLayer[] }) {
   if (!chain.length) return null
   const { ref, isVisible } = useScrollReveal(0.06)
   return (
-    <div ref={ref} className={`reveal ${isVisible ? "visible" : ""} my-10`}>
+    <div ref={ref} className={`reveal ${isVisible ? "visible" : ""} my-14`}>
       <SectionLabel>Industry Value Chain</SectionLabel>
-      <div className="border border-gray-100 rounded-lg overflow-hidden divide-y divide-gray-100">
+      <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl overflow-hidden divide-y divide-gray-100">
         {chain.map((layer, i) => (
           <div key={layer.layer} className={`pl-4 py-4 pr-5 ${RELEVANCE_COLOR[layer.relevance]} hover:bg-gray-50/50 transition-colors duration-200`}>
             <div className="flex items-baseline gap-3 flex-wrap">
@@ -102,9 +102,9 @@ function ValueChainBlock({ chain }: { chain: ValueChainLayer[] }) {
 
 function BullBearBlock({ bull, bear }: { bull: BullBearCase; bear: BullBearCase }) {
   return (
-    <div className="my-10">
+    <div className="my-14">
       <SectionLabel>Bull vs Bear Cases</SectionLabel>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="border border-emerald-100 rounded-lg p-5 bg-emerald-50/30">
           <div className="flex items-center gap-2 mb-3">
             <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
@@ -137,9 +137,9 @@ function BullBearBlock({ bull, bear }: { bull: BullBearCase; bear: BullBearCase 
 function RelatedResearchBlock({ research }: { research: { source: string; title: string; date: string }[] }) {
   if (!research.length) return null
   return (
-    <div className="my-10">
+    <div className="my-14">
       <SectionLabel>Related Research</SectionLabel>
-      <div className="border border-gray-100 rounded-lg divide-y divide-gray-100">
+      <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl divide-y divide-gray-100">
         {research.map((r, i) => (
           <div key={i} className="px-5 py-3.5 hover:bg-gray-50/50 transition-colors duration-200 flex items-center justify-between">
             <div className="min-w-0">
@@ -157,7 +157,7 @@ function RelatedResearchBlock({ research }: { research: { source: string; title:
 /* ── Sidebar Blocks ── */
 function SidebarMarketPulse({ pulse }: { pulse: MarketPulse[] }) {
   return (
-    <div className="border border-gray-100 rounded-lg p-4">
+    <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-4">
       <div className="flex items-center gap-1.5 mb-3">
         <span className="relative flex h-1.5 w-1.5">
           <span className="animate-live-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-500" />
@@ -190,7 +190,7 @@ function SidebarStocks({ stocks, liveQuotes }: { stocks: RelatedStock[]; liveQuo
   const qm: Record<string, StockQuote> = {}
   liveQuotes.forEach((q) => { qm[q.symbol] = q })
   return (
-    <div className="border border-gray-100 rounded-lg p-4">
+    <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-4">
       <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-3 block">Related Stocks</span>
       <div className="divide-y divide-gray-100">
         {stocks.map((s) => {
@@ -223,7 +223,7 @@ function SidebarStocks({ stocks, liveQuotes }: { stocks: RelatedStock[]; liveQuo
 function SidebarFlows({ flows }: { flows: { category: string; flow: string; trend: "inflow" | "outflow" }[] }) {
   if (!flows.length) return null
   return (
-    <div className="border border-gray-100 rounded-lg p-4">
+    <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-4">
       <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-3 block">Capital Flow</span>
       <div className="divide-y divide-gray-100">
         {flows.slice(0, 3).map((f, i) => (
@@ -242,7 +242,7 @@ function SidebarFlows({ flows }: { flows: { category: string; flow: string; tren
 function SidebarSignals({ signals }: { signals: { slug: string; label: string; title: string }[] }) {
   if (!signals.length) return null
   return (
-    <div className="border border-gray-100 rounded-lg p-4">
+    <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-4">
       <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-3 block">Key Signals</span>
       <div className="space-y-2">
         {signals.map((s) => (
@@ -313,8 +313,8 @@ export default function Detail() {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           {/* ── Header ── */}
           <div className="max-w-3xl">
-            <Link to="/" className="inline-flex items-center gap-1.5 text-[11px] text-gray-400 hover:text-gray-700 transition-colors duration-200 mb-6 group hover-scale-sm">
-              <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+            <Link to="/" className="inline-flex items-center gap-2 text-[13px] font-medium text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 px-4 py-2.5 rounded-lg transition-all duration-200 group">
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
               Back to Brief
             </Link>
             <div className="flex items-center gap-3 mb-6">
@@ -354,7 +354,7 @@ export default function Detail() {
                 <p key={i} className="text-[15px] leading-[1.85] text-gray-700 mb-6">{paragraph}</p>
               ))}
 
-              <blockquote className="border-l-[3px] border-gray-300 pl-5 py-0.5 my-10">
+              <blockquote className="bg-[#F8F9FA] rounded-xl border border-gray-100 px-5 py-4 my-14">
                 <p className="text-sm leading-relaxed text-gray-500 italic">&ldquo;{article.keyQuote}&rdquo;</p>
                 <footer className="mt-3 text-[11px] text-gray-400 tracking-wide">&mdash; {article.quoteSource}</footer>
               </blockquote>
@@ -363,7 +363,7 @@ export default function Detail() {
               {article.valueChain && article.valueChain.length > 0 && <ValueChainBlock chain={article.valueChain} />}
 
               {article.researchSnippets.length > 0 && (
-                <div className="my-10">
+                <div className="my-14 bg-[#F8F9FA] rounded-xl p-6">
                   <SectionLabel>Research Snippets</SectionLabel>
                   <div className="space-y-4">
                     {article.researchSnippets.map((rs, i) => (
@@ -425,7 +425,7 @@ export default function Detail() {
                   <SidebarFlows flows={article.flows} />
                 )}
                 <SidebarSignals signals={data.signals} />
-                <Link to="/flows" className="block w-full text-center py-2.5 border border-gray-100 rounded-lg text-[11px] font-medium text-gray-500 hover:text-gray-900 hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200">
+                <Link to="/flows" className="block w-full text-center py-3 bg-[#F8F9FA] border border-gray-100 rounded-xl text-[12px] font-medium text-gray-600 hover:text-gray-900 hover:border-gray-200 hover:bg-white transition-all duration-200">
                   Explore all flows →
                 </Link>
               </div>
