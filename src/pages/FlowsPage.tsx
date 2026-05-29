@@ -87,7 +87,10 @@ export default function FlowsPage() {
           )}
 
           <div ref={r1} className={`reveal ${v1 ? "visible" : ""} mb-12`}>
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 block">ETF Fund Flows</span>
+            <div className="flex items-end justify-between mb-4">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">ETF Fund Flows</span>
+              <span className="text-[9px] text-gray-300 bg-gray-100 px-1.5 py-0.5 rounded">Estimated</span>
+            </div>
             <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl overflow-hidden">
               {FALLBACK_FLOW_DATA.map((f, i) => (
                 <div key={i} className="flex items-center justify-between px-5 py-3.5 hover:bg-gray-50/50 transition-colors duration-200 border-b border-gray-100 last:border-0">
@@ -111,7 +114,10 @@ export default function FlowsPage() {
           </div>
 
           <div ref={r2} className={`reveal ${v2 ? "visible" : ""} mb-12 bg-[#F8F9FA] border border-gray-100 rounded-xl p-5`}>
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 block">Sector Rotation Signal</span>
+            <div className="flex items-end justify-between mb-4">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">Sector Rotation Signal</span>
+              <span className="text-[9px] text-gray-300 bg-gray-100 px-1.5 py-0.5 rounded">Estimated</span>
+            </div>
             {ROTATION.map((r) => (
               <div key={r.label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
                 <span className="text-sm text-gray-700">{r.label}</span>

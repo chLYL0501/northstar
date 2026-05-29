@@ -6,33 +6,33 @@ import ErrorBoundary from "@/components/ErrorBoundary"
 import { formatETTimeWithSeconds } from "@/services/formatDate"
 
 function TickerItem({ data }: { data: IndexQuote }) {
-  const isPositive = data.changePercent >= 0
   if (data.symbol === "—") return null
+  const isPositive = data.changePercent >= 0
+  const unreachable = data.price === 0 || data.source === "unavailable"
 
   return (
     <div className="flex items-center gap-2.5 whitespace-nowrap">
       <span className="relative flex h-1.5 w-1.5 shrink-0">
-        <span className="animate-pulse-dot absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
-        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+        <span className={`animate-pulse-dot absolute inline-flex h-full w-full rounded-full ${unreachable ? "bg-gray-300" : "bg-emerald-500"} opacity-75`} />
+        <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${unreachable ? "bg-gray-300" : "bg-emerald-500"}`} />
       </span>
       <span className="text-[10px] font-semibold tracking-wide text-gray-400 uppercase">
         {data.symbol}
       </span>
-      <span className="text-[10px] tabular-nums text-gray-600">
-        {data.price.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-      </span>
-      <span
-        className={`text-[10px] font-medium tabular-nums ${
-          isPositive ? "text-emerald-600" : "text-red-500"
-        }`}
-      >
-        {isPositive ? "+" : ""}{data.change.toFixed(2)}
-        <span className="text-gray-300 mx-0.5">|</span>
-        {isPositive ? "+" : ""}{data.changePercent.toFixed(2)}%
-      </span>
+      {unreachable ? (
+        <span className="text-[10px] text-gray-300 italic">offline</span>
+      ) : (
+        <>
+          <span className="text-[10px] tabular-nums text-gray-600">
+            {data.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+          <span className={`text-[10px] font-medium tabular-nums ${isPositive ? "text-emerald-600" : "text-red-500"}`}>
+            {isPositive ? "+" : ""}{data.change.toFixed(2)}
+            <span className="text-gray-300 mx-0.5">|</span>
+            {isPositive ? "+" : ""}{data.changePercent.toFixed(2)}%
+          </span>
+        </>
+      )}
     </div>
   )
 }
@@ -59,6 +59,8 @@ export default function MiniTicker() {
     return () => clearInterval(t)
   }, [load])
 
+  const dataSource = indices?.some((i) => i.source === "live") ? "live" : indices?.length ? "estimated" : null
+
   return (
     <ErrorBoundary>
       <div className="relative z-30 bg-white/95 backdrop-blur-md border-b border-gray-100/60">
@@ -68,33 +70,35 @@ export default function MiniTicker() {
           ) : error ? (
             <div className="flex items-center justify-center gap-3 h-9">
               <span className="text-[10px] text-gray-400">Market data unavailable</span>
-              <button
-                onClick={load}
-                className="text-[10px] text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1"
-              >
-                <RefreshCw className="w-2.5 h-2.5" />
-                Retry
+              <button onClick={load} className="text-[10px] text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1">
+                <RefreshCw className="w-2.5 h-2.5" />Retry
               </button>
             </div>
           ) : (
             <div className="flex items-center justify-between h-9">
               <div className="flex items-center gap-5 lg:gap-8 overflow-x-auto scrollbar-none">
-                <span className="inline-flex items-center gap-1.5 text-[9px] font-semibold text-emerald-600 shrink-0 mr-1">
+                <span className="inline-flex items-center gap-1.5 text-[9px] font-semibold shrink-0 mr-1"
+                  style={{ color: dataSource === "live" ? "#059669" : "#9CA3AF" }}>
                   <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-live-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-500" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                    <span className={`animate-live-pulse absolute inline-flex h-full w-full rounded-full ${dataSource === "live" ? "bg-emerald-500" : "bg-gray-400"}`} />
+                    <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${dataSource === "live" ? "bg-emerald-500" : "bg-gray-400"}`} />
                   </span>
-                  LIVE
+                  {dataSource === "live" ? "LIVE" : "EST."}
                 </span>
                 {indices!.map((idx) => (
                   <TickerItem key={idx.symbol} data={idx} />
                 ))}
               </div>
-              {lastUpdated && (
-                <span className="text-[9px] text-gray-300 shrink-0 hidden sm:block ml-4 tabular-nums">
-                  {lastUpdated}
-                </span>
-              )}
+              <div className="flex items-center gap-2 shrink-0 ml-4">
+                {dataSource !== "live" && (
+                  <span className="text-[8px] uppercase tracking-wider text-gray-300 bg-gray-50 px-1.5 py-0.5 rounded hidden sm:inline">
+                    Yahoo Finance
+                  </span>
+                )}
+                {lastUpdated && (
+                  <span className="text-[9px] text-gray-300 shrink-0 hidden sm:block tabular-nums">{lastUpdated}</span>
+                )}
+              </div>
             </div>
           )}
         </div>

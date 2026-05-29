@@ -158,12 +158,15 @@ function RelatedResearchBlock({ research }: { research: { source: string; title:
 function SidebarMarketPulse({ pulse }: { pulse: MarketPulse[] }) {
   return (
     <div className="bg-[#F8F9FA] border border-gray-100 rounded-xl p-4">
-      <div className="flex items-center gap-1.5 mb-3">
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="animate-live-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-500" />
-          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-        </span>
-        <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">Market Pulse</span>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-1.5">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-live-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-500" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">Market Pulse</span>
+        </div>
+        <span className="text-[8px] text-gray-300 bg-gray-100 px-1.5 py-0.5 rounded">Est.</span>
       </div>
       <div className="divide-y divide-gray-100">
         {pulse.map((p) => {

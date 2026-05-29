@@ -4,6 +4,7 @@ export interface IndexQuote {
   price: number
   change: number
   changePercent: number
+  source: "live" | "estimated" | "unavailable"
 }
 
 export interface StockQuote {
@@ -93,9 +94,17 @@ async function fetchYahoo(symbol: string): Promise<{
   }
 }
 
-function applyJitter(base: number): number {
-  const jitter = (Math.random() - 0.5) * base * 0.006
-  return +(base + jitter).toFixed(2)
+function getFallbackQuote(sym: string): { symbol: string; name: string; price: number; change: number; changePercent: number; isFallback: true } | null {
+  const fb = FALLBACK_QUOTES[sym]
+  if (!fb) return null
+  return {
+    symbol: sym.replace("^", ""),
+    name: fb.name,
+    price: fb.price,
+    change: 0,
+    changePercent: 0,
+    isFallback: true,
+  }
 }
 
 export async function fetchIndices(): Promise<IndexQuote[]> {
@@ -109,15 +118,15 @@ export async function fetchIndices(): Promise<IndexQuote[]> {
           price: live.price,
           change: +(live.price - live.prevClose).toFixed(2),
           changePercent: +(((live.price - live.prevClose) / live.prevClose) * 100).toFixed(2),
+          source: "live" as const,
         }
       }
       const fb = FALLBACK_QUOTES[sym]
-      const jPrice = applyJitter(fb.price)
-      return { symbol: sym.replace("^", ""), name: fb.name, price: jPrice, change: +(jPrice - fb.price).toFixed(2), changePercent: +((jPrice - fb.price) / fb.price * 100).toFixed(2) }
+      return { symbol: sym.replace("^", ""), name: fb.name, price: 0, change: 0, changePercent: 0, source: "unavailable" as const }
     })
   )
   return results.map((r) =>
-    r.status === "fulfilled" ? r.value : { symbol: "—", name: "—", price: 0, change: 0, changePercent: 0 }
+    r.status === "fulfilled" ? r.value : { symbol: "—", name: "—", price: 0, change: 0, changePercent: 0, source: "unavailable" as const }
   )
 }
 
@@ -141,8 +150,7 @@ export async function fetchAllStocks(): Promise<StockQuote[]> {
           }
         }
         const fb = FALLBACK_QUOTES[sym]
-        const jPrice = applyJitter(fb.price)
-        return { symbol: sym, name: fb.name, price: jPrice, change: +(jPrice - fb.price).toFixed(2), changePercent: +((jPrice - fb.price) / fb.price * 100).toFixed(2), timestamp: new Date().toISOString() }
+        return { symbol: sym, name: fb.name, price: 0, change: 0, changePercent: 0, timestamp: "" }
       })
     )
     const data = results.map((r) =>
