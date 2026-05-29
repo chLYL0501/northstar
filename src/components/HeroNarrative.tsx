@@ -47,7 +47,6 @@ export default function HeroNarrative({ data, lastUpdated, activeDay, onToggleDa
               <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-400">Daily Brief</span>
             </span>
             <span className={`text-[10px] font-semibold uppercase tracking-[0.12em] px-2 py-0.5 rounded-full ${REGIME_STYLES[data.regime]}`}>{data.regime}</span>
-            <span className="text-[9px] text-gray-300 bg-gray-100 px-1.5 py-0.5 rounded hidden sm:inline">Editorial</span>
             <span className="text-[10px] text-gray-400 ml-auto flex items-center gap-1"><Calendar className="w-3 h-3" />{displayDate}</span>
             {timeStr && <span className="text-[10px] text-gray-300 flex items-center gap-1"><Clock className="w-3 h-3" />{timeStr}</span>}
           </div>

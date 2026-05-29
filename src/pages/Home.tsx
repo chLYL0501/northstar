@@ -115,7 +115,7 @@ export default function Home() {
           <p className="text-[10px] text-gray-400">{formatRefreshTime()}</p>
           {marketData && (
             <p className="text-[9px] text-gray-300 mt-1.5">
-              Market indices & prices: {marketData.source === "live" ? "Yahoo Finance" : marketData.source} · News: Finnhub · Analysis & narratives: Editorial Research
+              Market indices: {marketData.source === "live" ? "Yahoo Finance" : marketData.source} · News: Finnhub
             </p>
           )}
         </div>

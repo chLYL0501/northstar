@@ -81,13 +81,13 @@ const NARRATIVES: DailyNarrative[] = [
       "Supply chain bifurcation is accelerating. Companies with geographically diversified manufacturing now trade at a valuation premium. Equipment makers with high China exposure face revenue risk.",
     marketImpact: {
       direction: "bearish",
-      description: "Semiconductor equipment under pressure. Defense and domestic manufacturing rallying. Gold breaking above $2,440.",
+      description: "Semiconductor equipment under pressure. Defense and domestic manufacturing rallying. Gold and safe havens bid as risk appetite fades.",
       tickers: ["AMAT", "LRCX", "ITA", "GLD"],
     },
     regime: "Defensive",
     keyMetrics: [
       { label: "Defense Sector Δ", value: "+3.1%" },
-      { label: "Gold", value: "$2,442" },
+      { label: "Safe Havens", value: "Rally" },
       { label: "China Semi Exp", value: "−2.8%" },
     ],
     relatedSlugs: ["geopolitical-risk", "supply-chain"],
@@ -111,7 +111,7 @@ const WHAT_CHANGED_POOL: WhatChanged[][] = [
     { label: "Defense Budget", detail: "Congress adds $45B to defense procurement. Contractors above 50-day MA.", direction: "up", metric: "+$45B" },
     { label: "China Semis", detail: "Stocks with >30% China revenue fell 2.8% as export controls loom.", direction: "down", metric: "−2.8%" },
     { label: "VIX", detail: "Volatility index rose to 19.4 but remains below panic threshold of 20.", direction: "up", metric: "19.4" },
-    { label: "Gold", detail: "Gold breaks above $2,440. Utilities sector posts largest weekly inflow since Oct.", direction: "up", metric: "+$1.8B" },
+    { label: "Gold", detail: "Safe haven assets bid as geopolitical risk premium rises. Utilities inflows surge.", direction: "up", metric: "+$1.8B" },
   ],
 ]
 
