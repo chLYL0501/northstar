@@ -151,12 +151,17 @@ export interface MarketData {
   briefArticles: BriefArticle[]
 }
 
+import { formatArticleDate as fmt, formatResearchDate as rfmt, formatDisplayDate as dfmt, formatETTime as et } from "@/services/formatDate"
+const TD = fmt()
+const YD = (() => { const d = new Date(); d.setDate(d.getDate() - 1); const m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return `${m[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}` })()
+const RM = rfmt()
+
 const detailArticles: DetailArticle[] = [
   {
     slug: "supply-chain",
     source: "Narrative Market Brief",
     authors: ["Narrative Research"],
-    date: "May 28, 2026",
+    date: TD,
     theme: "Supply Chain",
     headline: "Supply Chain: The Second-Order Effects of $320B in AI Capex",
     summary: "Beyond the headline capex numbers, the supply chain is revealing critical constraints in advanced packaging, high-bandwidth memory, and specialized power equipment. These bottlenecks are creating a new hierarchy of pricing power across the AI ecosystem.",
@@ -219,17 +224,17 @@ const detailArticles: DetailArticle[] = [
       },
     },
     relatedResearch: [
-      { source: "Morgan Stanley", title: "Asia Semis: The $25B HBM Opportunity Through 2027", date: "May 2026" },
-      { source: "Jefferies", title: "CoWoS Capacity Tracker: Monthly Supply Update", date: "May 2026" },
-      { source: "Goldman Sachs", title: "US Utilities: Data Center Power Demand 2026-2030", date: "April 2026" },
-      { source: "Bernstein", title: "Semi Equipment: Second Wave of AI Capex Begins", date: "May 2026" },
+      { source: "Morgan Stanley", title: "Asia Semis: The $25B HBM Opportunity Through 2027", date: RM },
+      { source: "Jefferies", title: "CoWoS Capacity Tracker: Monthly Supply Update", date: RM },
+      { source: "Goldman Sachs", title: "US Utilities: Data Center Power Demand 2026-2030", date: RM },
+      { source: "Bernstein", title: "Semi Equipment: Second Wave of AI Capex Begins", date: RM },
     ],
   },
   {
     slug: "capex-decomposition",
     source: "Narrative Market Brief",
     authors: ["Narrative Research"],
-    date: "May 28, 2026",
+    date: TD,
     theme: "Capital Allocation",
     headline: "Capex Decomposition: Breaking Down the $320 Billion",
     summary: "A granular breakdown of hyperscaler capital expenditure by layer — compute silicon, networking fabric, data center shell, and power infrastructure. Each layer has distinct margin profiles and market structures.",
@@ -293,17 +298,17 @@ const detailArticles: DetailArticle[] = [
       },
     },
     relatedResearch: [
-      { source: "Morgan Stanley", title: "Asia Semis: The $25B HBM Opportunity Through 2027", date: "May 2026" },
-      { source: "Jefferies", title: "CoWoS Capacity Tracker: Monthly Update on Advanced Packaging Supply", date: "May 2026" },
-      { source: "Goldman Sachs", title: "US Power & Utilities: Data Center Demand Scenarios 2026-2030", date: "April 2026" },
-      { source: "Bernstein", title: "Semiconductor Equipment: The Second Wave of AI Capex Is Just Beginning", date: "May 2026" },
+      { source: "Morgan Stanley", title: "Asia Semis: The $25B HBM Opportunity Through 2027", date: RM },
+      { source: "Jefferies", title: "CoWoS Capacity Tracker: Monthly Update on Advanced Packaging Supply", date: RM },
+      { source: "Goldman Sachs", title: "US Power & Utilities: Data Center Demand Scenarios 2026-2030", date: RM },
+      { source: "Bernstein", title: "Semiconductor Equipment: The Second Wave of AI Capex Is Just Beginning", date: RM },
     ],
   },
   {
     slug: "geopolitical-risk",
     source: "Narrative Market Brief",
     authors: ["Narrative Research"],
-    date: "May 28, 2026",
+    date: TD,
     theme: "Geopolitics",
     headline: "Geopolitical Risk: Export Controls and the Fragmentation of AI Supply Chains",
     summary: "The latest round of US export controls and the EU's Chip Act 2.0 are accelerating the bifurcation of AI supply chains. Companies with geographically diversified manufacturing footprints are commanding premium valuations.",
@@ -366,10 +371,10 @@ const detailArticles: DetailArticle[] = [
       },
     },
     relatedResearch: [
-      { source: "Eurasia Group", title: "Geopolitical Risk Monitor: Semiconductors Edition — Q2 2026", date: "May 2026" },
-      { source: "BCA Research", title: "Supply Chain Bifurcation: Cost Analysis of Geographic Diversification", date: "April 2026" },
-      { source: "Citi Research", title: "Global Semiconductors: Winners and Losers from CHIPS Act 2.0", date: "May 2026" },
-      { source: "Barclays", title: "Defense & Aerospace: Secular Growth in a Fragmented World Order", date: "March 2026" },
+      { source: "Eurasia Group", title: "Geopolitical Risk Monitor: Semiconductors Edition — Q2 2026", date: RM },
+      { source: "BCA Research", title: "Supply Chain Bifurcation: Cost Analysis of Geographic Diversification", date: RM },
+      { source: "Citi Research", title: "Global Semiconductors: Winners and Losers from CHIPS Act 2.0", date: RM },
+      { source: "Barclays", title: "Defense & Aerospace: Secular Growth in a Fragmented World Order", date: RM },
     ],
   },
 ]
@@ -379,7 +384,7 @@ const briefArticles: BriefArticle[] = [
     slug: "support-1",
     source: "SEMI Industry Report",
     authors: ["SEMI Research"],
-    date: "May 28, 2026",
+    date: TD,
     headline: "Semiconductor Equipment Orders Hit 18-Month High",
     summary: "Applied Materials and Lam Research both reported book-to-bill ratios above 1.2 for the first time since Q1 2025, signaling a renewed CapEx cycle in semiconductor manufacturing equipment.",
     body: [
@@ -401,7 +406,7 @@ const briefArticles: BriefArticle[] = [
     slug: "support-2",
     source: "Bloomberg",
     authors: ["Bloomberg News"],
-    date: "May 27, 2026",
+    date: YD,
     headline: "Private Credit Steps In as Bank Syndication Slows on Data Center Deals",
     summary: "Non-bank lenders are financing an increasing share of data center construction as traditional bank syndicates reach their exposure limits on large-scale infrastructure projects.",
     body: [
@@ -423,7 +428,7 @@ const briefArticles: BriefArticle[] = [
     slug: "support-3",
     source: "Financial Times",
     authors: ["FT Brussels Bureau"],
-    date: "May 28, 2026",
+    date: TD,
     headline: "EU Finalizes €47B Chip Act 2.0 with Focus on Advanced Packaging",
     summary: "The European Union has finalized its second major semiconductor legislation, allocating €18 billion specifically for advanced packaging capacity to compete with Asian dominance.",
     body: [
@@ -444,7 +449,7 @@ const briefArticles: BriefArticle[] = [
 ]
 
 const todaysData: MarketData = {
-  date: "May 28, 2026",
+  date: dfmt(),
   indices: [
     { name: "S&P 500", symbol: "SPX", value: 6092.48, change: 42.31, changePercent: 0.70 },
     { name: "Nasdaq", symbol: "IXIC", value: 19873.15, change: 156.82, changePercent: 0.80 },
@@ -460,7 +465,7 @@ const todaysData: MarketData = {
     category: "Today's Narrative",
     headline: "The $320B AI Capex Supercycle Is Rewriting Market Structure",
     summary: "Hyperscaler spending has crossed $320B for FY2026, triggering a broad repricing across semiconductors, energy, and software. The market is pricing in who captures the margin.",
-    timestamp: "Updated 08:42 AM EDT · May 28, 2026",
+    timestamp: `Updated ${et()} ET · ${dfmt()}`,
     keyMetrics: [
       { label: "AI Capex 2026E", value: "$328B" },
       { label: "YoY Growth", value: "+38%" },

@@ -1,6 +1,7 @@
 import { FeaturedStory as FeaturedStoryType } from "@/data/marketData"
 import { useScrollReveal } from "@/hooks/useScrollReveal"
 import { TrendingUp } from "lucide-react"
+import { formatSparklineRange, formatArticleDate } from "@/services/formatDate"
 
 interface FeaturedStoryProps {
   data: FeaturedStoryType
@@ -43,7 +44,7 @@ export default function FeaturedStory({ data }: FeaturedStoryProps) {
                   return <div key={i} className="flex-1 bg-emerald-500/70 hover:bg-emerald-500 rounded-t-sm transition-colors duration-150 sparkline-bar" style={{ height: `${Math.max(h, 4)}%` }} />
                 })}
               </div>
-              <div className="flex justify-between mt-2 text-[9px] text-gray-300"><span>Apr 28</span><span>May 28</span></div>
+              <div className="flex justify-between mt-2 text-[9px] text-gray-300"><span>{formatSparklineRange(30)}</span><span>{formatSparklineRange(0)}</span></div>
             </div>
           </div>
         </div>

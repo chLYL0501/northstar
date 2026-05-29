@@ -19,9 +19,11 @@ export interface WhatChanged {
 
 export type MarketRegime = "Risk-On" | "Rotation" | "Defensive" | "Risk-Off"
 
+import { todayStr, yesterdayStr, twoDaysAgoStr } from "@/services/formatDate"
+
 const NARRATIVES: DailyNarrative[] = [
   {
-    date: "2026-05-28",
+    date: todayStr(),
     headline: "The $320B AI Capex Supercycle Is Rewriting Market Structure",
     summary:
       "Hyperscaler spending has crossed $320B for FY2026, triggering a broad repricing across semiconductors, energy, and software. The market is pricing in who captures the margin.",
@@ -43,7 +45,7 @@ const NARRATIVES: DailyNarrative[] = [
     ],
   },
   {
-    date: "2026-05-27",
+    date: yesterdayStr(),
     headline: "Rate Cut Expectations Are Repricing Global Asset Allocation",
     summary:
       "FOMC minutes reveal a growing divergence between board members on the pace of easing. Bond markets are pricing 75bp of cuts by December, but equity positioning remains stretched.",
@@ -65,7 +67,7 @@ const NARRATIVES: DailyNarrative[] = [
     ],
   },
   {
-    date: "2026-05-26",
+    date: twoDaysAgoStr(),
     headline: "Geopolitical Risk Premium Returns as Trade Tensions Escalate",
     summary:
       "New tariff proposals on advanced semiconductor exports to China have triggered a flight to quality. Defense and domestic manufacturing names are outperforming while semis with >30% China revenue are under pressure.",
@@ -147,9 +149,9 @@ export function getNextRefreshTime(): string {
   const next = new Date(now)
   next.setHours(6, 0, 0, 0)
   if (now.getHours() >= 6) next.setDate(next.getDate() + 1)
-  return next.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })
+  return next.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: "America/New_York" })
 }
 
 export function formatRefreshTime(): string {
-  return `Next update: ${getNextRefreshTime()} EDT`
+  return `Next update: ${getNextRefreshTime()} ET`
 }

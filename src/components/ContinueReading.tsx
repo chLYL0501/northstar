@@ -33,7 +33,7 @@ export default function ContinueReading({ entries }: ContinueReadingProps) {
               </Link>
             ))}
           </div>
-          <p className="text-center text-[10px] text-gray-400 mt-8">More stories updated daily at 6:00 AM EDT</p>
+          <p className="text-center text-[10px] text-gray-400 mt-8">More stories updated daily at 6:00 AM ET</p>
         </div>
       </div>
     </section>

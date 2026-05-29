@@ -1,5 +1,6 @@
 import { DailyNarrative, MarketRegime, formatDateLabel } from "@/services/contentEngine"
 import { Calendar, AlertTriangle, TrendingUp } from "lucide-react"
+import { formatTimestampET } from "@/services/formatDate"
 
 interface HeroNarrativeProps {
   data: DailyNarrative
@@ -24,7 +25,7 @@ const RISK_LEVEL_STYLES = {
 
 export default function HeroNarrative({ data, lastUpdated, activeDay, onToggleDay, newsHeadlines }: HeroNarrativeProps) {
   const timeStr = lastUpdated
-    ? new Date(lastUpdated).toLocaleString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })
+    ? `Updated ${formatTimestampET(lastUpdated)}`
     : ""
 
   const dateLabel = formatDateLabel(data.date)

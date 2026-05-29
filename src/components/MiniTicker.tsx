@@ -3,6 +3,7 @@ import { IndexQuote, fetchIndices } from "@/services/realDataService"
 import { TickerSkeleton } from "@/components/Skeletons"
 import { RefreshCw } from "lucide-react"
 import ErrorBoundary from "@/components/ErrorBoundary"
+import { formatETTimeWithSeconds } from "@/services/formatDate"
 
 function TickerItem({ data }: { data: IndexQuote }) {
   const isPositive = data.changePercent >= 0
@@ -46,13 +47,7 @@ export default function MiniTicker() {
     try {
       const data = await fetchIndices()
       setIndices(data)
-      setLastUpdated(
-        new Date().toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        })
-      )
+      setLastUpdated(formatETTimeWithSeconds())
     } catch {
       setError(true)
     }
