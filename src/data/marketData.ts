@@ -587,7 +587,26 @@ const todaysData: MarketData = {
 }
 
 export function getMarketData(): MarketData {
-  return todaysData
+  const td = fmt()
+  const yd = (() => { const d = new Date(); d.setDate(d.getDate() - 1); const m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return `${m[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}` })()
+  const rm = rfmt()
+  const displayDate = dfmt()
+  const ts = `Updated ${et()} ET · ${displayDate}`
+
+  return {
+    ...todaysData,
+    date: displayDate,
+    heroNarrative: { ...todaysData.heroNarrative, timestamp: ts },
+    detailArticles: todaysData.detailArticles.map((a) => ({
+      ...a,
+      date: td,
+      relatedResearch: a.relatedResearch?.map((r) => ({ ...r, date: rm })),
+    })),
+    briefArticles: todaysData.briefArticles.map((b, i) => ({
+      ...b,
+      date: i === 1 ? yd : td,
+    })),
+  }
 }
 
 export function getDetailBySlug(slug: string): DetailArticle | undefined {

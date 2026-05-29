@@ -118,14 +118,16 @@ function getDaySeed(date?: Date): number {
 
 export function getTodaysNarrative(): DailyNarrative {
   const seed = getDaySeed()
-  return NARRATIVES[seed % NARRATIVES.length]
+  const n = NARRATIVES[seed % NARRATIVES.length]
+  return { ...n, date: todayStr() }
 }
 
 export function getYesterdaysNarrative(): DailyNarrative {
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
   const seed = getDaySeed(yesterday)
-  return NARRATIVES[seed % NARRATIVES.length]
+  const n = NARRATIVES[seed % NARRATIVES.length]
+  return { ...n, date: yesterdayStr() }
 }
 
 export function getWhatChanged(date?: Date): WhatChanged[] {

@@ -36,6 +36,16 @@ export default function Home() {
     fetchEnhancedMarketData().then((md) => { setMarketData(md); setMarketReady(true) })
   }, [])
 
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        fetchEnhancedMarketData().then((md) => { setMarketData(md) })
+      }
+    }
+    document.addEventListener("visibilitychange", onVisible)
+    return () => document.removeEventListener("visibilitychange", onVisible)
+  }, [])
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <MiniTicker />
