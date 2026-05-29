@@ -26,9 +26,11 @@ const RELEVANCE_COLOR: Record<string, string> = {
 
 function SectionLabel({ children }: { children: string }) {
   return (
-    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 mb-4 block">
-      {children}
-    </span>
+    <div className="flex items-center gap-2.5 border-l-[3px] border-gray-300 pl-3 mb-4">
+      <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-gray-500">
+        {children}
+      </span>
+    </div>
   )
 }
 
