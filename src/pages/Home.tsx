@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom"
-import { ArrowRight, TrendingUp } from "lucide-react"
+import { ArrowRight, TrendingUp, ChevronRight } from "lucide-react"
 import Navbar from "@/components/Navbar"
 import MiniTicker from "@/components/MiniTicker"
 import HeroNarrative from "@/components/HeroNarrative"
-import WhatChangedToday from "@/components/WhatChangedToday"
-import AINarrative from "@/components/AINarrative"
 import SupportingSignals from "@/components/SupportingSignals"
+import WhatChangedToday from "@/components/WhatChangedToday"
 import FeaturedStory from "@/components/FeaturedStory"
 import InstitutionalFlows from "@/components/InstitutionalFlows"
 import ContinueReading from "@/components/ContinueReading"
@@ -28,7 +27,6 @@ export default function Home() {
   const [activeDay, setActiveDay] = useState<"today" | "yesterday">("today")
 
   const narrative = activeDay === "today" ? getTodaysNarrative() : getYesterdaysNarrative()
-
   const yesterdayForSeed = (() => { const d = new Date(); d.setDate(d.getDate() - 1); return d })()
   const whatChanged = activeDay === "today" ? getWhatChanged() : getWhatChanged(yesterdayForSeed)
 
@@ -38,9 +36,7 @@ export default function Home() {
 
   useEffect(() => {
     const onVisible = () => {
-      if (document.visibilityState === "visible") {
-        fetchEnhancedMarketData().then((md) => { setMarketData(md) })
-      }
+      if (document.visibilityState === "visible") fetchEnhancedMarketData().then(setMarketData)
     }
     document.addEventListener("visibilitychange", onVisible)
     return () => document.removeEventListener("visibilitychange", onVisible)
@@ -52,6 +48,7 @@ export default function Home() {
       <Navbar />
 
       <main>
+        {/* ===== PRIMARY: Today's Top Market Story ===== */}
         {!marketReady ? (
           <HeroSkeleton />
         ) : (
@@ -66,39 +63,31 @@ export default function Home() {
           </ErrorBoundary>
         )}
 
-        <WhatChangedToday changes={whatChanged} />
+        {/* ===== SECONDARY: What Changed Today ===== */}
         <div className="section-divider mx-auto max-w-6xl px-6 lg:px-8" />
+        <WhatChangedToday changes={whatChanged} />
 
+        {/* ===== SECONDARY: Supporting Stories ===== */}
         <SupportingSignals signals={data.signals} />
 
+        {/* ===== TERTIARY: Featured Story ===== */}
         <FeaturedStory data={data.featuredStory} />
 
-        {/* AI Narrative */}
-        <section className="py-10 md:py-12 bg-[#F8F9FA]">
-          <div className="mx-auto max-w-6xl px-6 lg:px-8">
-            <div className="max-w-3xl">
-              <AINarrative />
-            </div>
-          </div>
-        </section>
-
-        {/* Flows + Institutional */}
-        <div className="section-divider mx-auto max-w-6xl px-6 lg:px-8" />
-
-        <section className="py-10 md:py-12">
+        {/* ===== TERTIARY: Flows + Continue Reading ===== */}
+        <section className="py-10 md:py-14">
           <div className="mx-auto max-w-6xl px-6 lg:px-8">
             <div className="flex items-end justify-between mb-5">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400">Explore</span>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400">Capital Flows</span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
               <Link to="/flows" className="flex items-center justify-between py-4 px-5 border border-gray-100 rounded-lg hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200 group hover-scale-sm">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
                     <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-400 mb-0.5">Capital Flows</p>
-                    <p className="text-sm font-medium text-gray-900">Track institutional money across sectors and ETFs</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-400 mb-0.5">Track Flows</p>
+                    <p className="text-sm font-medium text-gray-900">Institutional money across sectors and ETFs</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0 ml-4">
@@ -106,14 +95,14 @@ export default function Home() {
                   <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-500 transition-colors" />
                 </div>
               </Link>
-              <Link to="/signal/supply-chain" className="flex items-center justify-between py-4 px-5 border border-gray-100 rounded-lg hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200 group hover-scale-sm">
+              <Link to={`/signal/${narrative.relatedSlugs[0]}`} className="flex items-center justify-between py-4 px-5 border border-gray-100 rounded-lg hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200 group hover-scale-sm">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
-                    <TrendingUp className="w-3.5 h-3.5 text-blue-600" />
+                    <ChevronRight className="w-3.5 h-3.5 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-400 mb-0.5">Top Narrative</p>
-                    <p className="text-sm font-medium text-gray-900">Supply Chain: Chokepoints in the AI Buildout</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-400 mb-0.5">Read More</p>
+                    <p className="text-sm font-medium text-gray-900">Deep dive into today's top story</p>
                   </div>
                 </div>
                 <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-500 transition-colors shrink-0 ml-4" />
